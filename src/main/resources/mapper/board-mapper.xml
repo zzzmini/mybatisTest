@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.my.mybatisTest.mapper.BoardMapper">
+    <insert id="save" parameterType="boardDTO">
+        INSERT INTO board_table(
+            board_title, board_writer, board_contents )
+        VALUES(
+            #{boardDTO.board_title},
+            #{boardDTO.board_writer},
+            #{boardDTO.board_contents}
+        )
+    </insert>
+
+    <update id="updateHits" parameterType="Long">
+        UPDATE board_table SET board_hits = board_hits + 1
+        WHERE id = #{id}
+    </update>
+    <update id="updateById">
+        UPDATE board_table
+        SET
+            board_title = #{boardDto.board_title},
+            board_contents=#{boardDto.board_contents}
+        WHERE id = #{boardDto.id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM board_table WHERE id=#{id}
+    </delete>
+
+    <select id="findAll" resultType="boardDTO">
+        SELECT id, board_title, board_writer, board_hits,
+            TO_CHAR(create_date, 'yyyy-mm-dd') AS create_date
+        FROM board_table ORDER BY id DESC
+    </select>
+
+    <select id="findById" resultType="boardDTO">
+        SELECT id, board_title, board_writer, board_pass, board_hits,
+        TO_CHAR(create_date, 'yyyy-mm-dd') AS create_date,
+        board_contents
+        FROM board_table WHERE id=#{id}
+    </select>
+</mapper>
