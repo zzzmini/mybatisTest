@@ -15,7 +15,19 @@ public class BoardService {
     }
 
     public void save(BoardDTO boardDTO) {
-        mapper.save(boardDTO);
+        if (boardDTO.getBoard_file().get(0).isEmpty()) {
+            // 파일 선택 안한 부분
+            boardDTO.setFile_attached(0);
+            mapper.save(boardDTO);
+        } else {
+            // 파일을 선택했을 경우
+            boardDTO.setFile_attached(1);
+            mapper.save(boardDTO);
+            // 저장된 id를 확보....
+            System.out.println("[BoardService.save] = " + boardDTO);
+            //  BoardFileDTO 를 생성 해서 얘도 저장
+
+        }
     }
 
     public List<BoardDTO> findAll() {
@@ -36,5 +48,9 @@ public class BoardService {
 
     public void updateById(BoardDTO boardDTO) {
         mapper.updateById(boardDTO);
+    }
+
+    public List<BoardDTO> searchData(String search, String keword) {
+        return mapper.searchData(search, keword);
     }
 }

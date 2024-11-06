@@ -19,4 +19,8 @@ public interface BoardMapper {
     void deleteById(Long id);
 
     void updateById(@Param("boardDto")BoardDTO boardDTO);
+
+    List<BoardDTO> searchData(
+            @Param("search")String search,
+            @Param("keyword")String keword);
 }

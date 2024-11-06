@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class BoardController {
     @GetMapping("/list")
     public String list(Model model) {
         List<BoardDTO> list = boardService.findAll();
-        System.out.println(list);
+//        System.out.println(list);
         model.addAttribute("list", list);
         return "list";
     }
@@ -81,5 +82,15 @@ public class BoardController {
         BoardDTO dto = boardService.findById(id);
         model.addAttribute("board", dto);
         return "detail";
+    }
+
+    @PostMapping("searchCategory")
+    public String searchCategory(@RequestParam("keyword")String keword,
+                                 @RequestParam("search")String search,
+                                 Model model) {
+        System.out.println(keword + " " + search);
+        List<BoardDTO> list = boardService.searchData(search, keword);
+        model.addAttribute("list", list);
+        return "list";
     }
 }
