@@ -15,6 +15,16 @@
         )
     </insert>
 
+    <insert id="saveFile" parameterType="boardFile">
+        INSERT INTO board_file_table(
+            originalfilename, storedfilename, boardid)
+        VALUES (
+            #{boardFile.originalfilename},
+            #{boardFile.storedfilename},
+            #{boardFile.boardid}
+        )
+    </insert>
+
     <update id="updateHits" parameterType="Long">
         UPDATE board_table SET board_hits = board_hits + 1
         WHERE id = #{id}
@@ -40,7 +50,7 @@
     <select id="findById" resultType="boardDTO">
         SELECT id, board_title, board_writer, board_pass, board_hits,
         TO_CHAR(create_date, 'yyyy-mm-dd') AS create_date,
-        board_contents
+        board_contents, file_attached
         FROM board_table WHERE id=#{id}
     </select>
     <select id="searchData" resultType="boardDTO">
@@ -53,5 +63,8 @@
                 WHERE board_writer LIKE CONCAT('%', #{keyword},'%')
             </when>
         </choose>
+    </select>
+    <select id="findFile" resultType="boardFile">
+        SELECT * FROM board_file_table WHERE boardid=#{id}
     </select>
 </mapper>

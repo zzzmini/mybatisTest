@@ -1,6 +1,7 @@
 package com.my.mybatisTest.mapper;
 
 import com.my.mybatisTest.dto.BoardDTO;
+import com.my.mybatisTest.dto.BoardFileDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -23,4 +24,8 @@ public interface BoardMapper {
     List<BoardDTO> searchData(
             @Param("search")String search,
             @Param("keyword")String keword);
+
+    void saveFile(@Param("boardFile") BoardFileDTO boardFileDTO);
+
+    List<BoardFileDTO> findFile(Long id);
 }

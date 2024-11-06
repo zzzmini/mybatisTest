@@ -39,6 +39,13 @@
     <th>contents</th>
     <td>[[${board.board_contents}]]</td>
   </tr>
+  <tr th:if="${board.file_attached == 1}">
+    <th>image</th>
+    <td th:each="file : ${boardFileList}">
+      <img th:src="@{|/upload/${file.storedfilename}|}"
+        width="200" height="200">
+    </td>
+  </tr>
 </table>
 <button onclick="listReq()">목록</button>
 <button onclick="updateReq()">수정</button>

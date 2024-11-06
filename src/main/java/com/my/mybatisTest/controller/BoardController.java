@@ -1,6 +1,7 @@
 package com.my.mybatisTest.controller;
 
 import com.my.mybatisTest.dto.BoardDTO;
+import com.my.mybatisTest.dto.BoardFileDTO;
 import com.my.mybatisTest.service.BoardService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -29,7 +31,7 @@ public class BoardController {
         return "save";
     }
     @PostMapping("/save")
-    public String saveData(BoardDTO boardDTO) {
+    public String saveData(BoardDTO boardDTO) throws IOException {
         System.out.println(boardDTO);
         boardService.save(boardDTO);
         return "redirect:/list";
@@ -52,6 +54,16 @@ public class BoardController {
         BoardDTO boardDTO = boardService.findById(id);
         System.out.println(boardDTO);
         model.addAttribute("board", boardDTO);
+
+        // 첨부 파일 가져오기
+        if (boardDTO.getFile_attached() == 1) {
+            List<BoardFileDTO> boardFileDTOList =
+                    boardService.findFile(id);
+            System.out.println(boardFileDTOList);
+            model.addAttribute("boardFileList",
+                    boardFileDTOList);
+        }
+
         return "detail";
     }
 
